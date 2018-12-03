@@ -18,8 +18,11 @@ Future work
 -----------
 
 > Automatic alarm creation
+
 > Automatic notification creation
+
 > Config file which supports endpoint definition
+
 > Better error handling
 
 Instructions
