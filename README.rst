@@ -32,9 +32,9 @@ Install monasca monitor into a Python virtualenv, for example:
 
 .. code:: shell
 
-    virtualenv monasca-monitor
-    source monasca-monitor/bin/activate
-    pip install .
+    $ virtualenv monasca-monitor
+    $ source monasca-monitor/bin/activate
+    $ python setup.py install
 
 Source OpenStack credentials containing the OpenStack user which will
 be used to post metrics to the Monasca API, and the OpenStack Project
@@ -42,21 +42,21 @@ and Domain which the metrics will be stored in. For example:
 
 .. code:: shell
 
-    source ~/admin-openrc.sh
+    $ source ~/admin-openrc.sh
 
 Run the metrics source (it is recommended to do this in a screen
 session or similar):
 
 .. code:: shell
 
-    python metrics_source.py
+    $ mm_metric_source
 
 Run the heart beat generator (this processes notifications from Monasca
 and makes them available to Prometheus):
 
 .. code:: shell
 
-    python heartbeat.py
+    $ mm_heartbeat
 
 Make sure that the webhook notifier is enabled in the Monasca Notification
 service and then create a notification to ping this service back (assumes
@@ -64,12 +64,12 @@ this service is running on the same host as the notification service):
 
 .. code:: shell
 
-    monasca notification-create heartbeat_webhook webhook http://127.0.0.1:8000/heartbeat
+    $ monasca notification-create heartbeat_webhook webhook http://127.0.0.1:8000/heartbeat
 
 Create an alarm to pick up the periodically sent metrics in Monasca:
 
 .. code:: shell
 
-    monasca alarm-definition-create heartbeat 'sum(monascamonitor.heartbeat{}) >= 50' --description "Heartbeat" --severity LOW --alarm-actions 4f7f8448-5c47-4b92-914b-d9928f24e620
+    $ monasca alarm-definition-create heartbeat 'sum(monascamonitor.heartbeat{}) >= 50' --description "Heartbeat" --severity LOW --alarm-actions 4f7f8448-5c47-4b92-914b-d9928f24e620
 
 Configure Prometheus to scrape the endpoint (by default `localhost:8000/metrics`).
