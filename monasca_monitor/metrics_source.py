@@ -80,8 +80,12 @@ class MetricSource():
         MetricSource._send_heartbeat_metric(self.monasca_client)
 
 
-if __name__ == '__main__':
+def main():
     metricsource = MetricSource()
     while True:
         metricsource.send_metric()
         time.sleep(1)
+
+
+if __name__ == '__main__':
+    sys.exit(main())

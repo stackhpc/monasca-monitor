@@ -33,7 +33,9 @@ class HeartBeat():
         reactor.listenTCP(self.twisted_port, factory)
         reactor.run()
 
-
-if __name__ == '__main__':
+def main():
     heartbeat = HeartBeat()
     heartbeat.run()
+
+if __name__ == '__main__':
+    sys.exit(main())
