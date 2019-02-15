@@ -8,7 +8,7 @@ from keystoneclient import discover
 from monascaclient import client
 
 
-HOSTNAME = socket.gethostname()
+_HOSTNAME = socket.gethostname()
 
 
 class MetricSource():
@@ -68,7 +68,7 @@ class MetricSource():
             'jsonbody': [
                 {'timestamp': time.time() * 1000,
                  'value_meta': None,
-                 'dimensions': {'hostname': HOSTNAME},
+                 'dimensions': {'hostname': _HOSTNAME},
                  'value': MetricSource._get_heartbeat_value(),
                  'name': 'monascamonitor.heartbeat'}
             ]
