@@ -72,4 +72,4 @@ Create an alarm to pick up the periodically sent metrics in Monasca:
 
     monasca alarm-definition-create heartbeat 'sum(monascamonitor.heartbeat{}) >= 50' --description "Heartbeat" --severity LOW --alarm-actions 4f7f8448-5c47-4b92-914b-d9928f24e620
 
-Configure Prometheus to scrape the endpoint (by default `localhost:8000`).
+Configure Prometheus to scrape the endpoint (by default `localhost:8000/metrics`).
