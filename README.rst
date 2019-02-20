@@ -36,13 +36,16 @@ Install monasca monitor into a Python virtualenv, for example:
     $ source monasca-monitor/bin/activate
     $ python setup.py install
 
-Source OpenStack credentials containing the OpenStack user which will
-be used to post metrics to the Monasca API, and the OpenStack Project
-and Domain which the metrics will be stored in. For example:
+Create the configuration file. An example is provided in
+`etc/monasca-monitor.conf.example`. Typically this should be copied
+to the default config directory, but the path can also be specified with
+`--config-file` at run time. Remember to set the file system permissions
+correctly so that you reduce the risk of exposing your password.
 
 .. code:: shell
 
-    $ source ~/admin-openrc.sh
+    $ mkdir -p /etc/monasca-monitor
+    $ cp etc/monasca-monitor.conf.example /etc/monasca-monitor/monasca-monitor.conf
 
 Run the metrics source (it is recommended to do this in a screen
 session or similar):

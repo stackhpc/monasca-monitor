@@ -1,0 +1,15 @@
+[heartbeat]
+bind_port = 8001
+bind_host = 0.0.0.0
+
+[keystone_auth]
+auth_url = http://10.0.0.1:5000/v3
+user_domain_name = Default
+user_domain_id =
+project_name = monasca_monitoring
+project_domain_name = Default
+project_id = 5638e8577bd84379eaba4bfb66177086
+password = correctbatteryhorsestaple
+username = monasca_monitor
+auth_type = password
+region_name=RegionOne
