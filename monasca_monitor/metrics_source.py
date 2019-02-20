@@ -13,42 +13,40 @@
 # under the License.
 
 import datetime
-import os
 import socket
+import sys
 import time
 
-from keystoneauth1 import identity, session
+from keystoneauth1 import loading, session
 from keystoneclient import discover
 from monascaclient import client
+from oslo_config import cfg
 
-
+_APP_NAME = 'monasca-monitor'
+_CFG_AUTH_SECTION = 'keystone_auth'
 _HOSTNAME = socket.gethostname()
+
+CONF = cfg.CONF
 
 
 class MetricSource():
 
     def __init__(self):
-        self.sess = MetricSource._get_keystone_session()
+        CONF(sys.argv[1:],
+             project=_APP_NAME)
+        loading.register_auth_conf_options(CONF, _CFG_AUTH_SECTION)
+
+        self.sess = self._get_keystone_session()
         self.monasca_client = MetricSource._get_monasca_client(self.sess)
 
-    @staticmethod
-    def _get_keystone_session(keystone_timeout=10,
+    def _get_keystone_session(self,
+                              keystone_timeout=10,
                               ca_file=None,
                               insecure=True):
-        auth = identity.Password(
-            auth_url=os.environ.get('OS_AUTH_URL'),
-            username=os.environ.get('OS_USERNAME'),
-            password=os.environ.get('OS_PASSWORD'),
-            user_domain_name=os.environ.get('OS_USER_DOMAIN_NAME'),
-            project_id=os.environ.get('OS_PROJECT_ID'),
-            project_name=os.environ.get('OS_PROJECT_NAME'),
-            project_domain_id=os.environ.get('OS_USER_DOMAIN_ID'),
-            project_domain_name=os.environ.get('OS_USER_DOMAIN_NAME'),
-            reauthenticate=True
-        )
+        auth = loading.load_auth_from_conf_options(CONF,
+                                                   _CFG_AUTH_SECTION)
         return session.Session(auth=auth,
-                               app_name='monascamonitor',
-                               app_version='0.1',
+                               app_name=_APP_NAME,
                                timeout=keystone_timeout,
                                verify=not insecure,
                                cert=ca_file)

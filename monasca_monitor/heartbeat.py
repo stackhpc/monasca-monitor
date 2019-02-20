@@ -13,17 +13,29 @@
 # under the License.
 
 import cgi
+import sys
 
+from oslo_config import cfg
 from prometheus_client import Counter
 from prometheus_client.twisted import MetricsResource
 from twisted.internet import reactor
 from twisted.web.resource import Resource
 from twisted.web.server import Site
 
-
+_APP_NAME = 'monasca-monitor'
 _HEARTBEAT = Counter(
     'monasca_monitor_heartbeat',
     'Monasca system level heartbeat')
+
+heartbeat_group = cfg.OptGroup(name='heartbeat')
+opts = [
+    cfg.StrOpt('bind_host', default='0.0.0.0'),
+    cfg.PortOpt('bind_port', default=8000),
+]
+
+CONF = cfg.CONF
+CONF.register_group(heartbeat_group)
+CONF.register_opts(opts, group=heartbeat_group)
 
 
 class HeartBeatResource(Resource):
@@ -36,20 +48,26 @@ class HeartBeatResource(Resource):
 
 
 class HeartBeat():
-    def __init__(self, twisted_port=8000):
-        self.twisted_port = twisted_port
+
+    def __init__(self):
+        CONF(sys.argv[1:],
+             project=_APP_NAME)
 
     def run(self):
         root = Resource()
         root.putChild(b'metrics', MetricsResource())
         root.putChild(b'heartbeat', HeartBeatResource())
         factory = Site(root)
-        reactor.listenTCP(self.twisted_port, factory)
+        reactor.listenTCP(CONF.heartbeat.bind_port,
+                          factory,
+                          interface=CONF.heartbeat.bind_host)
         reactor.run()
+
 
 def main():
     heartbeat = HeartBeat()
     heartbeat.run()
+
 
 if __name__ == '__main__':
     sys.exit(main())
