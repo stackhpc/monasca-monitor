@@ -78,7 +78,7 @@ class MetricSource():
     def _send_heartbeat_metric(client):
         kwargs = {
             'jsonbody': [
-                {'timestamp': time.time() * 1000,
+                {'timestamp': int(time.time() * 1000),
                  'value_meta': None,
                  'dimensions': {'hostname': _HOSTNAME},
                  'value': MetricSource._get_heartbeat_value(),
