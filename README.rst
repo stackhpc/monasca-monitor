@@ -52,14 +52,14 @@ session or similar):
 
 .. code:: shell
 
-    $ mm_metric_source
+    $ mm-metric-source
 
 Run the heart beat generator (this processes notifications from Monasca
 and makes them available to Prometheus):
 
 .. code:: shell
 
-    $ mm_heartbeat
+    $ mm-heartbeat
 
 Make sure that the webhook notifier is enabled in the Monasca Notification
 service and then create a notification to ping this service back (assumes
