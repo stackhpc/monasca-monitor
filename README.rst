@@ -2,8 +2,8 @@
 Monasca Monitor
 ===============
 
-.. image:: https://travis-ci.org/stackhpc/monmon.svg?branch=master
-   :target: https://travis-ci.org/stackhpc/monmon
+.. image:: https://travis-ci.org/stackhpc/monasca-monitor.svg?branch=master
+   :target: https://travis-ci.org/stackhpc/monasca-monitor
 
 A proof of concept system-level monitor for Monasca.
 
