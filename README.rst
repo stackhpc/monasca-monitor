@@ -23,7 +23,7 @@ Deploy with Ansible
 The easiest way to install the Monasca monitor is to use the following
 Ansible role:
 
-https://github.com/stackhpc/ansible-role-monasca-rsyslog
+https://github.com/stackhpc/ansible-role-os-monasca-monitor
 
 Manual install
 ==============
