@@ -26,7 +26,15 @@ _APP_NAME = 'monasca-monitor'
 _CFG_AUTH_SECTION = 'keystone_auth'
 _HOSTNAME = socket.gethostname()
 
+monasca_client = cfg.OptGroup(name='monasca_client')
+monasca_client_opts = [
+    cfg.StrOpt("endpoint_type", default="publicURL"),
+    cfg.StrOpt("region_name", default="RegionOne"),
+]
+
 CONF = cfg.CONF
+CONF.register_group(monasca_client)
+CONF.register_opts(monasca_client_opts, group=monasca_client)
 
 
 class MetricSource():
@@ -60,8 +68,8 @@ class MetricSource():
         catalog = ks.auth_ref.service_catalog
         endpoint = catalog.url_for(
             service_type='monitoring',
-            interface='internal',
-            region_name='RegionOne')
+            interface=CONF.monasca_client.interface,
+            region_name=CONF.monasca_client.region_name)
 
         return client.Client(
             api_version='2_0',
