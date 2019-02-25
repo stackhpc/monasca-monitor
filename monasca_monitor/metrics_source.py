@@ -68,7 +68,7 @@ class MetricSource():
         catalog = ks.auth_ref.service_catalog
         endpoint = catalog.url_for(
             service_type='monitoring',
-            interface=CONF.monasca_client.interface,
+            interface=CONF.monasca_client.endpoint_type,
             region_name=CONF.monasca_client.region_name)
 
         return client.Client(
