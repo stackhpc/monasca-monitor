@@ -1,5 +1,5 @@
 [monasca_client]
-interface = publicURL
+endpoint_type = publicURL
 region_name = RegionOne
 
 [heartbeat]
