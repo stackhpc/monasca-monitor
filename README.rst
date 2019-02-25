@@ -14,21 +14,21 @@ service. The alarm notification events received by `monasca-monitor` are
 then made available to Prometheus to scrape. Prometheus can then be
 configured to alert a user if the notification events fail to arrive.
 
-Future work
------------
-
-> Automatic alarm creation
-
-> Automatic notification creation
-
-> Config file which supports endpoint definition
-
-> Better error handling
-
 Instructions
 ------------
 
-Install monasca monitor into a Python virtualenv, for example:
+Deploy with Ansible
+===================
+
+The easiest way to install the Monasca monitor is to use the following
+Ansible role:
+
+https://github.com/stackhpc/ansible-role-monasca-rsyslog
+
+Manual install
+==============
+
+First, create a Python virtualenv, for example:
 
 .. code:: shell
 
