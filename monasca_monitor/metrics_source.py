@@ -17,6 +17,7 @@ import socket
 import sys
 import time
 
+from keystoneauth1 import exceptions as keystoneauth_exceptions
 from keystoneauth1 import loading, session
 from keystoneclient import discover
 from monascaclient import client
@@ -94,7 +95,11 @@ class MetricSource():
             ]
         }
         print('Sending metric: {}'.format(kwargs))
-        client.metrics.create(**kwargs)
+        try:
+            client.metrics.create(**kwargs)
+        except (keystoneauth_exceptions.connection.ConnectFailure,
+                keystoneauth_exceptions.http.ServiceUnavailable) as e:
+            print("Failed to send metric: {}".format(e))
 
     def send_metric(self):
         MetricSource._send_heartbeat_metric(self.monasca_client)
