@@ -98,6 +98,7 @@ class MetricSource():
         try:
             client.metrics.create(**kwargs)
         except (keystoneauth_exceptions.connection.ConnectFailure,
+                keystoneauth_exceptions.connection.ConnectTimeout,
                 keystoneauth_exceptions.http.ServiceUnavailable) as e:
             print("Failed to send metric: {}".format(e))
 
