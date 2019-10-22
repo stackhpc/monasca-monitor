@@ -16,3 +16,5 @@ user_domain_id =
 project_name = monasca_monitoring
 project_id = 5638e8577bd84379eaba4bfb66177086
 project_domain_name = Default
+cafile =
+insecure = False

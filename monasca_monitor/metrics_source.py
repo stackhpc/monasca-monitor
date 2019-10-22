@@ -44,21 +44,19 @@ class MetricSource():
         CONF(sys.argv[1:],
              project=_APP_NAME)
         loading.register_auth_conf_options(CONF, _CFG_AUTH_SECTION)
+        loading.register_session_conf_options(CONF, _CFG_AUTH_SECTION)
 
         self.sess = self._get_keystone_session()
         self.monasca_client = MetricSource._get_monasca_client(self.sess)
 
-    def _get_keystone_session(self,
-                              keystone_timeout=10,
-                              ca_file=None,
-                              insecure=True):
+    def _get_keystone_session(self, keystone_timeout=10):
         auth = loading.load_auth_from_conf_options(CONF,
                                                    _CFG_AUTH_SECTION)
         return session.Session(auth=auth,
                                app_name=_APP_NAME,
                                timeout=keystone_timeout,
-                               verify=not insecure,
-                               cert=ca_file)
+                               verify=not CONF.keystone_auth.insecure,
+                               cert=CONF.keystone_auth.cafile)
 
     @staticmethod
     def _get_monasca_client(sess):
